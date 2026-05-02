@@ -14,9 +14,6 @@ try {
 
     // Configuração de Segurança e erros.
     $pdo ->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-
-    // Echo para teste de conexão
-    echo "Conexão com o Banco bem sucedida!";
 } catch (PDOException $e) {
 
     // Tratamento de erro (caso a conexão falhe)
