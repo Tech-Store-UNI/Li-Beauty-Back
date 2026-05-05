@@ -1,4 +1,7 @@
 <?php
+
+use Firebase\JWT\JWT;
+
 require_once __DIR__ . '/../config/Conexao.php';
 
 class LoginController {
@@ -63,13 +66,28 @@ public function Login() {
         if($usuario && password_verify($dados->senha, $usuario['Senha'])) {
            
         $perfil = "cliente";
+        $tempoValidade = 60 * 60 * 24 * 30;
+
         if (strtolower($usuario['Nome']) === "admin") {
             $perfil = "admin";
+            $tempoValidade = 60 * 60;
         }
-        
+
+        $secretKey = "LiBeauty_API_Secret_SmokeBlack_2026_!@#";
+        $playload = [
+            "iat" => time(),
+            "exp" => time() + $tempoValidade,
+            "data" => [
+                "id" => $usuario["id"],
+                "perfil" => $perfil
+            ]
+        ];
+        $token = JWT::encode($playload, $secretKey, 'HS256');
+
         echo json_encode([
                 "erro" => false,
                 "mensagem" => "Bem-vindo(a), " .$usuario['Nome'] . "!",
+                "token" => $token,
                 "usuario" => [
                     "id" => $usuario["id"],
                     "Nome" => $usuario["Nome"],
