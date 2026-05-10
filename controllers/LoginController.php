@@ -73,7 +73,7 @@ public function Login() {
             $tempoValidade = 60 * 60;
         }
 
-        $secretKey = "LiBeauty_API_Secret_SmokeBlack_2026_!@#";
+        $secretKey = $_ENV['JWT_SECRET'];
         $playload = [
             "iat" => time(),
             "exp" => time() + $tempoValidade,
