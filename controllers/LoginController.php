@@ -48,7 +48,6 @@ public function Login() {
     $dados = json_decode($json);
 
     if(empty($dados->usuario) || empty($dados->senha)) {
-        echo json_encode(["erro"=> true, "mensagem" => "Preencha todos os campos!"]);
         return;
     }
     try {
@@ -85,9 +84,6 @@ public function Login() {
         $token = JWT::encode($playload, $secretKey, 'HS256');
 
         echo json_encode([
-                "erro" => false,
-                "mensagem" => "Bem-vindo(a), " .$usuario['Nome'] . "!",
-                "token" => $token,
                 "usuario" => [
                     "id" => $usuario["id"],
                     "Nome" => $usuario["Nome"],
