@@ -1,16 +1,16 @@
 <?php
 
-$servidor = 'DESKTOP-V8GUBC5';
-$banco = 'Libeauty';
-// $usuario = 'DESKTOP-V8GUBC5\Admin';
-// $senha = '';
+$host = $_ENV['DB_HOST'];
+$banco = $_ENV['DB_BANK'];
+$usuario = $_ENV['DB_USR'];
+$senha = $_ENV['DB_PASSWORD'];
 
 try {
     // Configuração do DSN (Data Source Name)
-    $dsn = "sqlsrv:Server=$servidor;Database=$banco";
+    $dsn = "mysql:host=$host;dbname=$banco;charset=utf8mb4";
 
     //  Criando a conexão do PDO
-    $pdo = new PDO($dsn, "", "");
+    $pdo = new PDO($dsn, $usuario, $senha);
 
     // Configuração de Segurança e erros.
     $pdo ->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);

@@ -22,13 +22,14 @@ public function Cadastro() {
     try {
         // Criptografa a senha e salva no Banco
         $senhaSegura = password_hash($dados->senha, PASSWORD_DEFAULT);
-        $sql = "INSERT INTO Usuarios (Nome, Email, Senha) VALUES (:nome, :email, :senha)";
+        $sql = "INSERT INTO usuarios (Nome, Email, Senha, Perfil) VALUES (:nome, :email, :senha, :perfil)";
         $comando = $pdo->prepare($sql);
 
         // Substitui os valores dos parametros
         $comando->bindValue(':nome', $dados->nome);
         $comando->bindValue(':email', $dados->email);
         $comando->bindValue(':senha', $senhaSegura);
+        $comando->bindValue(':perfil', 'cliente');
 
         $comando->execute();
 
@@ -52,7 +53,7 @@ public function Login() {
     }
     try {
         // Busca o usuário pelo email ou nome
-        $sql = "SELECT * FROM Usuarios WHERE Email = :email OR Nome = :nome";
+        $sql = "SELECT * FROM usuarios WHERE Email = :email OR Nome = :nome";
         $comando = $pdo->prepare($sql);
         $comando->bindValue(':email', $dados->usuario);
         $comando->bindValue(':nome', $dados->usuario);
@@ -73,7 +74,7 @@ public function Login() {
         }
 
         $secretKey = $_ENV['JWT_SECRET'];
-        $playload = [
+        $playload = [   
             "iat" => time(),
             "exp" => time() + $tempoValidade,
             "data" => [
