@@ -30,9 +30,8 @@ switch ($rota) {
         require_once __DIR__ . '/routes/Contato.php';
         break;
 
-        case 'servicos':
-            // Será incluido a rota de serviços
-            // require_once __DIR__ . '/routes/Servicos.php';
+        case 'agendamento':
+            require_once __DIR__ . '/routes/Agendamento.php';
             break;
 
             case '':

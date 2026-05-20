@@ -1,6 +1,4 @@
 <?php
-
-// Importa a conexão com o banco
 require_once __DIR__ . '/../controllers/LoginController.php';
 
 $acao = $_GET['acao'] ?? 'login';
