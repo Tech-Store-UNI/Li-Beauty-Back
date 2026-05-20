@@ -14,7 +14,7 @@ class AgendamentoController {
         try {
             global $pdo;
 
-            $sql = "CALL sp_GerenciarAgendamento(:p_idUsuario, :p_dataInicio, :p_dataFim, :p_telefone, :p_idAgendamentoExistente)";
+            $sql = "CALL sp_GerenciarAgendamento(:p_idUsuario, :p_dataInicio, :p_dataFim, :p_telefone, :p_idAgendamentoExistente, :p_idProdutoServico)";
             $start = $pdo->prepare($sql);
 
             $idUsuario = $dados->idUsuario;
@@ -22,6 +22,7 @@ class AgendamentoController {
             $dataFim = $dados->dataFim;
             $telefone = !empty($dados->telefone) ? $dados->telefone : '';
             $idExistente = !empty($dados->idAgendamentoExistente) ? $dados->idAgendamentoExistente : null;
+            $idProdutoServico = !empty($dados->idProdutoServico) ? $dados->idProdutoServico : null;
          
             $start->bindValue(':p_idUsuario', $idUsuario, PDO::PARAM_INT);
             $start->bindValue(':p_dataInicio', $dataInicio);
@@ -33,8 +34,13 @@ class AgendamentoController {
             } else {
                 $start->bindValue(':p_idAgendamentoExistente', null, PDO::PARAM_NULL);
              }
-             $start->execute();
 
+             if ($idProdutoServico) {
+                $start->bindParam(':p_idProdutoServico', $idProdutoServico, PDO::PARAM_INT);
+            } else {
+                $start->bindValue(':p_idProdutoServico', null, PDO::PARAM_NULL);
+            }
+             $start->execute();
              $respostaBanco = $start->fetch(PDO::FETCH_ASSOC);
 
              if ($respostaBanco && $respostaBanco['Resultado'] === 'Sucesso') {
