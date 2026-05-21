@@ -24,7 +24,8 @@ $partes = explode('/', trim($rota_completa, '/'));
 $rota = end($partes);
 
 switch ($rota) {
-    case 'login':
+        case 'login':
+        case 'cadastrar':
         require_once __DIR__ . '/routes/Login.php';
         break;
 
@@ -34,6 +35,10 @@ switch ($rota) {
 
         case 'agendamento':
             require_once __DIR__ . '/routes/Agendamento.php';
+            break;
+
+            case 'usuario':
+            require_once __DIR__ . '/routes/Usuario.php';
             break;
 
             case '':

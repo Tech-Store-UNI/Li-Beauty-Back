@@ -1,7 +1,7 @@
 <?php
 require_once __DIR__ . '/../controllers/LoginController.php';
 
-$acao = $_GET['acao'] ?? 'login';
+$acao = $rota;
 
 $controller = new LoginController();
 switch ($acao) {
