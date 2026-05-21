@@ -13,13 +13,15 @@ if($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
     exit();
 }
 
-
 require_once __DIR__ . '/vendor/autoload.php';
 
 $dotenv = Dotenv::createImmutable(__DIR__);
 $dotenv -> load();
 
-$rota = $_GET['rota'] ?? '';
+$rota_completa = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
+$partes = explode('/', trim($rota_completa, '/'));
+
+$rota = end($partes);
 
 switch ($rota) {
     case 'login':
