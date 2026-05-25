@@ -11,7 +11,7 @@ class UsuarioController {
                 return;
             }
 
-            $sql = "SELECT id, Nome, Email, Telefone FROM usuarios ORDER BY Nome ASC";
+            $sql = "SELECT id, Nome, Email, Telefone FROM usuarios ORDER BY id ASC";
             $start = $pdo->prepare($sql);
             $start->execute();
 

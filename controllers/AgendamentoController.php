@@ -14,6 +14,36 @@ class AgendamentoController {
         try {
             global $pdo;
 
+            if ($pdo === null) {
+                echo json_encode(["erro" => true, "mensagem" => "Erro de conexão com o banco de dados."]);
+                return;
+            }
+
+            // Lógica para verificar se o usuário está bloqueado 
+            $idUsuario = $dados->idUsuario;
+            $dataInicio = $dados->dataInicio;
+            $dataFim = $dados->dataFim;
+            $telefone = !empty($dados->telefone) ? $dados->telefone : '';
+            $idExistente = !empty($dados->idAgendamentoExistente) ? $dados->idAgendamentoExistente : null;
+            $idProdutoServico = !empty($dados->idProdutoServico) ? $dados->idProdutoServico : null;
+
+
+            $sqlCheck = "SELECT ativo FROM usuarios WHERE id = :id";
+            $stmtCheck = $pdo->prepare($sqlCheck);
+            $stmtCheck->bindValue(':id', $idUsuario, PDO::PARAM_INT);
+            $stmtCheck->execute();
+            $usuarioStatus = $stmtCheck->fetch(PDO::FETCH_ASSOC);
+            
+            if ($usuarioStatus && $usuarioStatus['ativo'] == 0) {
+                echo json_encode([
+                    "erro" => true,
+                    "bloqueado" => true,
+                    "mensagem" => "Por favor, finaliza o seu agendamento através do WhatsApp, obrigada!"
+                ]);
+                return;
+            }
+
+
             $sql = "CALL sp_GerenciarAgendamento(:p_idUsuario, :p_dataInicio, :p_dataFim, :p_telefone, :p_idAgendamentoExistente, :p_idProdutoServico)";
             $start = $pdo->prepare($sql);
 

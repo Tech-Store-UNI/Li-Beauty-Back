@@ -37,8 +37,12 @@ switch ($rota) {
             require_once __DIR__ . '/routes/Agendamento.php';
             break;
 
-            case 'usuario':
+        case 'usuario':
             require_once __DIR__ . '/routes/Usuario.php';
+            break;
+
+        case 'mensagem':
+            require_once __DIR__ . '/routes/Mensagem.php';
             break;
 
             case '':
