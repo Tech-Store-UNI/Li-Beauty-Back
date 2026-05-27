@@ -49,6 +49,10 @@ switch ($rota) {
             require_once __DIR__ . '/routes/Agenda.php';
             break;
 
+        case 'produtos':
+            require_once __DIR__ . '/routes/Produtos.php';
+            break;
+
             case '':
                 echo json_encode(["mensagem" => "A API está online!"]);
                 break;
