@@ -35,6 +35,7 @@ class AgendamentoController {
             $usuarioStatus = $stmtCheck->fetch(PDO::FETCH_ASSOC);
             
             if ($usuarioStatus && $usuarioStatus['ativo'] == 0) {
+                http_response_code(403);
                 echo json_encode([
                     "erro" => true,
                     "bloqueado" => true,
@@ -44,7 +45,7 @@ class AgendamentoController {
             }
 
 
-            $sql = "CALL sp_GerenciarAgendamento(:p_idUsuario, :p_dataInicio, :p_dataFim, :p_telefone, :p_idAgendamentoExistente, :p_idProdutoServico)";
+            $sql = "CALL sp_GerenciarAgendamento_v2(:p_idUsuario, :p_dataInicio, :p_dataFim, :p_telefone, :p_idAgendamentoExistente, :p_idProdutoServico)";
             $start = $pdo->prepare($sql);
 
             $idUsuario = $dados->idUsuario;
@@ -76,7 +77,7 @@ class AgendamentoController {
              if ($respostaBanco && $respostaBanco['Resultado'] === 'Sucesso') {
                 echo json_encode(["erro" => false, "mensagem" => $respostaBanco['Mensagem']]);
              } else {
-                $msgErro = isset($respostaBanco['Mensagem']) ? $respostaBanco['Mensagem'] : 'Não foi possivel realizar o agendmento.';
+                $msgErro = isset($respostaBanco['Mensagem']) ? $respostaBanco['Mensagem'] : 'Não foi possivel realizar o agendamento.';
                 echo json_encode(["erro" => true, "mensagem" => $msgErro]);
              }
             } catch (PDOException $e) {

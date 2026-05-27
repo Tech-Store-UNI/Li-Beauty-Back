@@ -94,6 +94,7 @@ public function Login() {
             ]);
         } else {
             // Caso email, usuário ou senha não existir, será retornado um erro padrão
+            http_response_code(401);
             echo json_encode(["erro" => true, "mensagem" => "Usuário ou senha inválidos!"]);
         }
     } catch (PDOException $e) {
