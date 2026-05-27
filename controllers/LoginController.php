@@ -65,6 +65,23 @@ public function Login() {
         // Verifica se o usuário e senha existem
         if($usuario && password_verify($dados->senha, $usuario['Senha'])) {
            
+            // Lógica para o usuário inativo, caso o campo ativo seja 0, o usuário não pode acessar o sistema
+            $sql = "SELECT ativo FROM usuarios WHERE id = :id";
+            $stmt = $pdo->prepare($sql);
+            $stmt->bindValue(':id', $usuario['id'], PDO::PARAM_INT);
+            $stmt->execute();
+            $usuarioAtivo = $stmt->fetch(PDO::FETCH_ASSOC);
+
+            if ($usuarioAtivo && $usuarioAtivo['ativo'] == 0) {
+                http_response_code(403);
+                echo json_encode([
+                    "erro" => true,
+                    "bloqueado" => true,
+                    "mensagem" => "Usuário inátivo, por favor, finalizar seu agendamento através do WhatsApp, obrigada!"
+                ]);
+                return;
+            }
+
         $perfil = "cliente";
         $tempoValidade = 60 * 60 * 24 * 30;
 
@@ -89,7 +106,8 @@ public function Login() {
                     "id" => $usuario["id"],
                     "Nome" => $usuario["Nome"],
                     "Email" => $usuario["Email"],
-                    "Perfil" => $perfil
+                    "Perfil" => $perfil,
+                    "Token" => $token
                 ]
             ]);
         } else {
