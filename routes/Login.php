@@ -9,12 +9,13 @@ switch ($acao) {
         $controller->Cadastro();
         break;
 
-        case 'login':
-            $controller->Login();
-            break;
+    case 'login':
+        $controller->Login();
+        break;
 
-            default:
-            echo json_encode(["erro" => true, "mensagem" => "Ação inválida no Login"]);
-            break;
+    default:
+        echo json_encode(["erro" => true, "mensagem" => "Ação inválida no Login"]);
+        break;
 }
+$controller->loginGoogle();
 ?>
