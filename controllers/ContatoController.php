@@ -13,12 +13,13 @@ class ContatoController {
         try {
             global $pdo;
 
-            $sql = "INSERT INTO mensagemcontato (Nome, Email, Mensagem, Telefone) VALUES (:nome, :email, :mensagem)";
+            $sql = "INSERT INTO mensagemcontato (Nome, Email, Mensagem, Telefone) VALUES (:nome, :email, :mensagem, :telefone)";
             $start = $pdo->prepare($sql);
 
             $start->bindParam(':nome', $dados->nome);
             $start->bindParam(':email', $dados->email);
             $start->bindParam(':mensagem', $dados->mensagem);
+            $start->bindParam(':telefone', $dados->telefone);
 
             $start->execute();
 
