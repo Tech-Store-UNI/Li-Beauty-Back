@@ -11,7 +11,7 @@ class MensagemController {
                 return;
             }
 
-            $sql = "SELECT id, Nome, Email, Mensagem FROM mensagemcontato ORDER BY id ASC";
+            $sql = "SELECT id, Nome, Email, Mensagem, DtEnv, Lida, Telefone FROM mensagemcontato ORDER BY id ASC";
             $start = $pdo->prepare($sql);
             $start->execute();
 
