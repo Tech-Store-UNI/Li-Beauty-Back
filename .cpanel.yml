@@ -1,0 +1,5 @@
+---
+deployment:
+  tasks:
+    - export DEPLOYPATH=/home/mat74853/public_html/api/
+    - /bin/cp -R * $DEPLOYPATH
