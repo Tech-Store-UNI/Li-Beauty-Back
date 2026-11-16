@@ -1,11 +1,13 @@
 <?php
 require_once __DIR__ . '/../config/Conexao.php';
 
-class ContatoController {
-    public function enviarMensagem() {
+class ContatoController
+{
+    public function enviarMensagem()
+    {
         $dados = json_decode(file_get_contents("php://input"));
 
-        if(empty($dados->nome) || empty($dados->email) || empty($dados->mensagem)) {
+        if (empty($dados->nome) || empty($dados->email) || empty($dados->mensagem)) {
             echo json_encode(["erro" => true, "mensagem" => "Preencha todos os campos do formulário"]);
             return;
         }
@@ -24,10 +26,10 @@ class ContatoController {
             $start->execute();
 
             echo json_encode(["erro" => false, "mensagem" => "Mensagem salva com sucesso"]);
+            exit;
         } catch (PDOException $e) {
             echo json_encode(["erro" => true, "mensagem" => $e->getMessage()]);
+            exit;
         }
-
     }
 }
-?>

@@ -37,8 +37,10 @@ class LoginController
 
             // Avisa o React que deu tudo certo
             echo json_encode(["erro" => false, "mensagem" => "Usuário cadastrado com sucesso!"]);
+            exit;
         } catch (PDOException $e) {
             echo json_encode(["erro" => true, "mensagem" => "Erro ao cadastrar usuário: " . $e->getMessage()]);
+            exit;
         }
     }
 
@@ -113,13 +115,16 @@ class LoginController
                         "Token" => $token
                     ]
                 ]);
+                exit;
             } else {
                 // Caso email, usuário ou senha não existir, será retornado um erro padrão
                 http_response_code(401);
                 echo json_encode(["erro" => true, "mensagem" => "Usuário ou senha inválidos!"]);
+                exit;
             }
         } catch (PDOException $e) {
             echo json_encode(["erro" => true, "mensagem" => "Erro no banco: " . $e->getMessage()]);
+            exit;
         }
     }
 
@@ -158,6 +163,7 @@ class LoginController
                     "mensagem" => "Login realizado com sucesso",
                     "id_usuario" => $usuario['id']
                 ]);
+                exit;
             } else {   // cadastro google (teste)
                 $senhaVazia = '';
 
@@ -174,9 +180,11 @@ class LoginController
                     "mensagem" => "Usuário cadastrado e logado com sucesso",
                     "id_usuario" => $pdo->lastInsertId()
                 ]);
+                exit;
             }
         } catch (PDOException $e) {
             echo json_encode(["sucesso" => false, "mensagem" => "Erro no banco: " . $e->getMessage()]);
+            exit;
         }
     }
 }
