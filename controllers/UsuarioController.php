@@ -25,17 +25,21 @@ class UsuarioController
                     "total" => count($usuarios),
                     "usuarios" => $usuarios
                 ]);
+                exit;
             } else {
                 echo json_encode([
                     "erro" => false,
                     "total" => "Nenhum usuário encontrado",
                     "usuarios" => []
                 ]);
+                exit;
             }
         } catch (PDOException $e) {
             echo json_encode(["erro" => true, "mensagem" => "Erro SQL: " . $e->getMessage()]);
+            exit;
         } catch (Exception $e) {
             echo json_encode(["erro" => true, "mensagem" => "Erro PHP: " . $e->getMessage()]);
+            exit;
         }
     }
 
@@ -84,8 +88,10 @@ class UsuarioController
                 "mensagem" => "Perfil atualizado com successo",
                 "nova_foto" => $caminho_banco
             ]);
+            exit;
         } catch (PDOException  $e) {
             echo json_encode(["sucesso" => false, "mensagem" => "Erro  no banco: " . $e->getMessage()]);
+            exit;
         }
     }
 }
